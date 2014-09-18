@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- this spring security.xml uses java ldap for authentication -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+			http://www.springframework.org/schema/security 
+			http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+	
+	<!-- This is where we configure Spring-Security  -->
+		<security:http use-expressions="true">
+			<security:intercept-url pattern="/" access="permitAll" />
+			<security:intercept-url pattern="/index.jsp" access="permitAll" />
+		  	<security:intercept-url pattern="/client/loginpage" access="permitAll" />
+		  	<security:intercept-url pattern="/client/auth" access="permitAll" />
+		  	<security:intercept-url pattern="/**" access="isAuthenticated()" />
+		  	
+		  	<security:form-login 
+		    login-page="/client/loginpage" />
+			<!-- enable csrf protection -->
+<!-- 			<csrf/> -->
+		</security:http>
+	
+	<!-- 
+			For authentication:
+			user-search-filter: the attribute name that contains the user name 
+		    user-search-base: the base path where to find user information
+		    
+		    For authorization:
+		    group-search-filter: the attribute name that contains the full dn of a user
+		    group-search-base: the base path where to find role information
+		    group-role-attribute: the attribute name that contains the role type
+		    role-prefix: the prefix to be added when retrieving role values
+		    
+		    For server access:
+		    manager-dn: the full dn of the person that has access to an LDAP server
+		    manager-password: the password of the person that has access to an LDAP server
+	-->
+	<security:authentication-manager alias="authenticationManager">
+	        <security:ldap-authentication-provider  
+	        		user-search-filter="(uid:caseExactMatch:={0})" 
+	        		user-search-base="ou=users"
+	        		group-search-filter="(uniqueMember={0})"
+	        		group-search-base="ou=groups"
+	        		group-role-attribute="cn"
+	        		role-prefix="ROLE_">
+	        </security:ldap-authentication-provider>
+	</security:authentication-manager>
+	<!-- user should have a case sensitivity option -->
+<!-- 	user-search-filter="(uid:caseExactMatch:={0})" --> <!-- used for case sensitive search -->
+<!-- 	user-search-filter="(uid={0})"  --> <!-- case insensitive search -->
+	
+	<security:ldap-server url="ldap://10.62.28.111:389/dc=capgemini,dc=com" manager-dn="cn=admin,dc=capgemini,dc=com" manager-password="password" />
+</beans>

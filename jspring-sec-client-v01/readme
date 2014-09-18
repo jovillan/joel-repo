@@ -1,0 +1,84 @@
+currently if any secured page is access it will be redirected to login page
+upon successful login the user will always be redirected to the home page
+
+the login page should be configured in xml file
+the custom login page form should use the name username and password in username and password fields
+xml config files dispatcher-servlet and spring-security should be added in web-inf and included in web xml
+
+WED:
+passing model attribute on redirect - ok
+CLEAN CODE - ok
+IMPLEMENT AUTHORIZATION - ok
+	return authentication exception - for now return null
+		reasearch how to properly implement an exception
+-test
+-copy ldap implementation of cap ldap, for minimum config change
+-create interceptor to prevent caching rather that letting the client side controller handle it
+-try to use dependency injection rather than using new in SecurityContextLogoutHandler at spring subject login
+-tag them as release 1
+
+?multi threading test
+
+SUBJECT CONFIG
+	-instead of using security config in java dependency injection in subject could be used
+
+INTEGRATE TO SKILL PORTAL
+
+upload to git after git training for better project management
+
+externalize config files
+
+TODO:
+prepare login using request(web based) and username, password(non web)
+! implement authorization methods - clean code first - remove unneccesary variables, syso, arguments, fields
+!! return token after successful login instead of returning boolean
+! implement any solution on preventing browser caching
+	- caching of secured pages is already disabled
+	- during current session, the user should be able to use the back button
+		- currently the browser asks for form resubmission
+		- after form resubmission the requested page is displayed (even after logging out) - bug
+			- what if response and authentication is used on logout method
+store on an external file the user configurations
+solve naming exception
+prevent browser caching of secured pages - using headers
+
+for improvements:
+! should go back to the previously accessed page after successful login
+!! add csrf
+
+authenticated user: 
+org.springframework.security.authentication.UsernamePasswordAuthenticationToken@344300fd: 
+Principal: org.springframework.security.ldap.userdetails.LdapUserDetailsImpl@c72bc75a: 
+Dn: cn=Joel Villanueva,ou=users,dc=capgemini,dc=com; 
+Username: jovillan; 
+Password: [PROTECTED]; 
+Enabled: true; 
+AccountNonExpired: true; 
+CredentialsNonExpired: true; 
+AccountNonLocked: true; 
+Granted Authorities: ROLE_USER; 
+Credentials: [PROTECTED]; 
+Authenticated: true; 
+Details: org.springframework.security.web.authentication.WebAuthenticationDetails@fffc7f0c: 
+RemoteIpAddress: 0:0:0:0:0:0:0:1; 
+SessionId: B3425AD5F6E26739121A7505817BDC84; 
+Granted Authorities: ROLE_USER
+
+Dn: cn=Joel Villanueva,ou=users,dc=capgemini,dc=com; 
+Username: jovillan; 
+Enabled: true; 
+AccountNonExpired: true; 
+CredentialsNonExpired: true; 
+AccountNonLocked: true; 
+Granted Authorities: ROLE_USER; 
+Authenticated: true; 
+Details: org.springframework.security.web.authentication.WebAuthenticationDetails@fffc7f0c: 
+RemoteIpAddress: 0:0:0:0:0:0:0:1; 
+SessionId: B3425AD5F6E26739121A7505817BDC84; 
+Granted Authorities: ROLE_USER
+
+*******
+upon pressing back the page redirects to default login page instead of the custom
+
+caching problem probable solution
+-it seems spring is forwarding the page to login when pressing back, instead redirect to create infinite loop to login
