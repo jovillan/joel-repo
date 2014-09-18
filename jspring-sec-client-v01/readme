@@ -46,37 +46,6 @@ for improvements:
 ! should go back to the previously accessed page after successful login
 !! add csrf
 
-authenticated user: 
-org.springframework.security.authentication.UsernamePasswordAuthenticationToken@344300fd: 
-Principal: org.springframework.security.ldap.userdetails.LdapUserDetailsImpl@c72bc75a: 
-Dn: cn=Joel Villanueva,ou=users,dc=capgemini,dc=com; 
-Username: jovillan; 
-Password: [PROTECTED]; 
-Enabled: true; 
-AccountNonExpired: true; 
-CredentialsNonExpired: true; 
-AccountNonLocked: true; 
-Granted Authorities: ROLE_USER; 
-Credentials: [PROTECTED]; 
-Authenticated: true; 
-Details: org.springframework.security.web.authentication.WebAuthenticationDetails@fffc7f0c: 
-RemoteIpAddress: 0:0:0:0:0:0:0:1; 
-SessionId: B3425AD5F6E26739121A7505817BDC84; 
-Granted Authorities: ROLE_USER
-
-Dn: cn=Joel Villanueva,ou=users,dc=capgemini,dc=com; 
-Username: jovillan; 
-Enabled: true; 
-AccountNonExpired: true; 
-CredentialsNonExpired: true; 
-AccountNonLocked: true; 
-Granted Authorities: ROLE_USER; 
-Authenticated: true; 
-Details: org.springframework.security.web.authentication.WebAuthenticationDetails@fffc7f0c: 
-RemoteIpAddress: 0:0:0:0:0:0:0:1; 
-SessionId: B3425AD5F6E26739121A7505817BDC84; 
-Granted Authorities: ROLE_USER
-
 *******
 upon pressing back the page redirects to default login page instead of the custom
 
