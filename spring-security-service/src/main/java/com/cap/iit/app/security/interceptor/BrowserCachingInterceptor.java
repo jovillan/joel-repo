@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 @Component
-public class LoginInterceptor extends HandlerInterceptorAdapter {
+public class BrowserCachingInterceptor extends HandlerInterceptorAdapter {
 	
-	private static final Logger logger = Logger.getLogger(LoginInterceptor.class);
+	private static final Logger logger = Logger.getLogger(BrowserCachingInterceptor.class);
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request,
