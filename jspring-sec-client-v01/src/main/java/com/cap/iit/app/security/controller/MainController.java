@@ -68,7 +68,7 @@ public class MainController {
 //			model.setViewName("redirect:/client/loginpage?error");
 //		}
 		
-		preventBrowserCaching(response);
+//		preventBrowserCaching(response);
 		return model;
 	}
 
@@ -91,7 +91,7 @@ public class MainController {
 		model.addObject("msg", "You've been logged out successfully.");
 		model.setViewName("loginpage");
 
-		preventBrowserCaching(response);
+//		preventBrowserCaching(response);
 		return model;
 	}
 
@@ -104,7 +104,7 @@ public class MainController {
 		model.setViewName("home");
 		
 		displaySessionDetails("home session details: ", request);
-		preventBrowserCaching(response);
+//		preventBrowserCaching(response);
 		
 		return model;
 	}
@@ -115,7 +115,7 @@ public class MainController {
 		model.setViewName("admin");
 		
 		displaySessionDetails("admin", request);
-		preventBrowserCaching(response);
+//		preventBrowserCaching(response);
 		return model;
 	}
 
@@ -125,15 +125,15 @@ public class MainController {
 		model.setViewName("user");
 		
 		displaySessionDetails("user", request);
-		preventBrowserCaching(response);
+//		preventBrowserCaching(response);
 		return model;
 	}
 
-	private void preventBrowserCaching(HttpServletResponse response) {
-		response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
-		response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
-		response.setDateHeader("Expires", 0); // Proxies.
-	}
+//	private void preventBrowserCaching(HttpServletResponse response) {
+//		response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+//		response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+//		response.setDateHeader("Expires", 0); // Proxies.
+//	}
 	
 	@SuppressWarnings("rawtypes")
 	private void displaySessionDetails(String msg, HttpServletRequest request) {

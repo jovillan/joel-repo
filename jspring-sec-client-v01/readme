@@ -30,6 +30,9 @@ externalize config files
 
 TODO:		
 store on an external file the user configurations
+
+bugs:
+from logout page, press back, then forward to logout page again, it asks for form submission(this should not be the case)
 solve naming exception
 
 for improvements:

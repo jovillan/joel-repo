@@ -44,11 +44,12 @@
 	        		user-search-base="ou=users"
 	        		group-search-filter="(uniqueMember={0})"
 	        		group-search-base="ou=groups"
-	        		group-role-attribute="cn"
-	        		role-prefix="ROLE_">
+	        		group-role-attribute="cn">
+<!-- 	        		role-prefix="ROLE_"> -->
 	        </security:ldap-authentication-provider>
 	</security:authentication-manager>
-	<!-- user should have a case sensitivity option -->
+	<!-- user should have a case sensitivity option
+		ldap-authentication-provider attributes should be user defined -->
 <!-- 	user-search-filter="(uid:caseExactMatch:={0})" --> <!-- used for case sensitive search -->
 <!-- 	user-search-filter="(uid={0})"  --> <!-- case insensitive search -->
 	

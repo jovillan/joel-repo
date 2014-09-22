@@ -18,7 +18,6 @@
 	<context:component-scan base-package="com.cap.iit.app.security.service.manager" />
 	<context:component-scan base-package="com.cap.iit.app.security.subject" />
 	<context:component-scan base-package="com.cap.iit.app.security.handler" />
-<!-- 	<context:component-scan base-package="com.cap.iit.app.security.interceptor" /> -->
 	<context:component-scan base-package="com.cap.iit.app.security.controller" />
 	
 	<!-- Configures the annotation-driven Spring MVC Controller programming model.
@@ -40,10 +39,7 @@
 	<bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
         <constructor-arg name="logoutSuccessHandler" ref="noRedirectLogoutSuccessHandler" />
 	    <constructor-arg name="handlers">
-<!-- 	        <list> -->
 	            <ref bean="securityContextLogoutHandler"/>
-<!-- 	            <bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/> -->
-<!-- 	        </list> -->
 	    </constructor-arg>
 	</bean>
 	<bean id="noRedirectLogoutSuccessHandler" class="com.cap.iit.app.security.handler.NoRedirectLogoutSuccessHandler"/>
@@ -52,11 +48,9 @@
 	</bean>
 
 	<bean id="subject" class="com.cap.iit.app.security.subject.SpringSubject" autowire="byName" />
-	
-<!-- 	<bean id="loginInterceptor" class="com.capgemini.iit.app.security.interceptor.LoginInterceptor" /> -->
 
-<!-- 	<mvc:interceptors> -->
-<!--       <bean class="com.cap.iit.app.security.interceptor.LoginInterceptor" /> -->
-<!--     </mvc:interceptors>  -->
+	<mvc:interceptors>
+      <bean class="com.cap.iit.app.security.interceptor.LoginInterceptor" />
+    </mvc:interceptors> 
  
 </beans>
