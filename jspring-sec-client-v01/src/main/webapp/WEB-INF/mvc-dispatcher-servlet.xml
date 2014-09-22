@@ -50,7 +50,7 @@
 	<bean id="subject" class="com.cap.iit.app.security.subject.SpringSubject" autowire="byName" />
 
 	<mvc:interceptors>
-      <bean class="com.cap.iit.app.security.interceptor.LoginInterceptor" />
+      <bean class="com.cap.iit.app.security.interceptor.BrowserCachingInterceptor" />
     </mvc:interceptors> 
  
 </beans>
