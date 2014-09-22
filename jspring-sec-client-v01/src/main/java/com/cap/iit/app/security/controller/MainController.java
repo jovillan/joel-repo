@@ -26,12 +26,15 @@ public class MainController {
 
 	@RequestMapping(value = "/loginpage", method = RequestMethod.GET)
 	public ModelAndView loginpage(ModelAndView model,
-			@RequestParam(value = "error", required = false) String error
+			@RequestParam(value = "error", required = false) String error,
+			@RequestParam(value = "logout", required = false) String logout
 	) {
 		
 		if (error != null) {
 			System.out.println("error" + error);
 			model.addObject("error", "Invalid username and password!");
+		} else if (logout != null) {
+			model.addObject("msg", "You've been logged out successfully.");
 		}
 	    
 		model.setViewName("loginpage");
@@ -68,7 +71,6 @@ public class MainController {
 //			model.setViewName("redirect:/client/loginpage?error");
 //		}
 		
-//		preventBrowserCaching(response);
 		return model;
 	}
 
@@ -87,11 +89,9 @@ public class MainController {
 			HttpServletResponse response
 	) {
 		capSecurityManager.logout(request);	//accdg to spring docs authentication and response is not used by SecurityContextLogoutHandler in logging out
-
-		model.addObject("msg", "You've been logged out successfully.");
-		model.setViewName("loginpage");
-
-//		preventBrowserCaching(response);
+		
+		System.out.println("redirect:/client/loginpage?logout");
+		model.setViewName("redirect:/client/loginpage?logout");
 		return model;
 	}
 
@@ -104,8 +104,6 @@ public class MainController {
 		model.setViewName("home");
 		
 		displaySessionDetails("home session details: ", request);
-//		preventBrowserCaching(response);
-		
 		return model;
 	}
 
@@ -115,7 +113,6 @@ public class MainController {
 		model.setViewName("admin");
 		
 		displaySessionDetails("admin", request);
-//		preventBrowserCaching(response);
 		return model;
 	}
 
@@ -125,15 +122,8 @@ public class MainController {
 		model.setViewName("user");
 		
 		displaySessionDetails("user", request);
-//		preventBrowserCaching(response);
 		return model;
 	}
-
-//	private void preventBrowserCaching(HttpServletResponse response) {
-//		response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
-//		response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
-//		response.setDateHeader("Expires", 0); // Proxies.
-//	}
 	
 	@SuppressWarnings("rawtypes")
 	private void displaySessionDetails(String msg, HttpServletRequest request) {

@@ -20,7 +20,12 @@ public class SubjectDelegate {
 	public SubjectDto login(HttpServletRequest request){
 		
 		Authentication authenticatedUser = subject.login(request);
-		SubjectDto subjectDto =  subject.setSubjectDto(authenticatedUser);
+		SubjectDto subjectDto = null;
+		if (null == authenticatedUser) {
+			return subjectDto;
+		} else {
+			subjectDto =  subject.setSubjectDto(authenticatedUser);
+		}
 		
 		return subjectDto;
 	}

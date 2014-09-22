@@ -44,7 +44,8 @@
 	        		user-search-base="ou=users"
 	        		group-search-filter="(uniqueMember={0})"
 	        		group-search-base="ou=groups"
-	        		group-role-attribute="cn">
+	        		group-role-attribute="cn"
+	        		role-prefix="none">
 <!-- 	        		role-prefix="ROLE_"> -->
 	        </security:ldap-authentication-provider>
 	</security:authentication-manager>

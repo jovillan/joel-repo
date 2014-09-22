@@ -37,6 +37,7 @@ public class SpringSubject implements Subject {
 	protected AuthenticationManager authenticationManager;
 
 	private SubjectDto subjectDto;
+	private boolean isAuthenticated;
 
 	@Override
 	public Authentication login(HttpServletRequest request) {
@@ -46,6 +47,12 @@ public class SpringSubject implements Subject {
 		//		String username = request.getParameter("username").toLowerCase();	//for case insensitive login
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+		
+		//check for null values
+		if (null == username || null == password || username.isEmpty() || password.isEmpty()) {
+			logger.error("username and/or password is empty or null");
+			return null;
+		}
 
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
 				username, password);
@@ -73,9 +80,8 @@ public class SpringSubject implements Subject {
 		}
 
 		SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
-
+		isAuthenticated = true;
 		logSessionDetails(request);
-
 		logger.info("user successfully authenticated");
 		return authenticatedUser;
 	}
@@ -110,6 +116,7 @@ public class SpringSubject implements Subject {
 		ctxLogOut.logout(request, null, null);	//accdg to spring docs response and auth are not used
 		SecurityContextHolder.getContext().setAuthentication(null);
 		request.getSession().invalidate();
+		isAuthenticated = false;
 
 		logger.info("logout session attributes after logout: ");
 		logSessionDetails(request);
@@ -119,7 +126,11 @@ public class SpringSubject implements Subject {
 	@Override
 	public Set<String> getSubjectRoles() {
 
-		return subjectDto.getRoles();
+		if (isAuthenticated) {
+			return subjectDto.getRoles();
+		} else {
+			throw new IllegalStateException();
+		}
 	}
 
 	@Override
@@ -162,7 +173,11 @@ public class SpringSubject implements Subject {
 	@Override
 	public Set<String> getSubjectPermissions() {
 
-		return subjectDto.getPermissions();
+		if (isAuthenticated) {
+			return subjectDto.getPermissions();
+		} else {
+			throw new IllegalStateException();
+		}
 	}
 
 	@Override
