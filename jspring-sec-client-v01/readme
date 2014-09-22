@@ -5,6 +5,8 @@ the login page should be configured in xml file
 the custom login page form should use the name username and password in username and password fields
 xml config files dispatcher-servlet and spring-security should be added in web-inf and included in web xml
 
+added some comments
+
 WED:
 passing model attribute on redirect - ok
 CLEAN CODE - ok
