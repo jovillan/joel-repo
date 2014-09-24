@@ -7,7 +7,7 @@ public class SubjectDto {
 	private String username;
 	private String dn;					//ldap distinguished name
 	private Set<String> permissions;	//for permission-based login
-	private Set<String> roles;
+	private Set<String> roles;			//user groups
 	
 	public String getPrincipal() {
 		return principal;

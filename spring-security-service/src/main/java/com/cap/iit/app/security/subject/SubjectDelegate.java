@@ -2,9 +2,9 @@ package com.cap.iit.app.security.subject;
 
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -14,25 +14,40 @@ import com.cap.iit.app.security.subject.dto.SubjectDto;
 @Component
 public class SubjectDelegate {
 	@Autowired
-	private Subject subject;	//spring is used by default and shiro subject is not yet implemented
+	private Subject subject;	//this will be set in xml, either spring security or shiro can be used
 	private SubjectLookup lookupService = new SubjectLookup();
 	
-	public SubjectDto login(HttpServletRequest request){
+	private Logger logger = Logger.getLogger(SubjectDelegate.class);
+	
+	public SubjectDto login(String username, String password){
 		
-		Authentication authenticatedUser = subject.login(request);
+		logger.info("creating authentication token..");
+		//check for null values
+		if (null == username || null == password || username.isEmpty() || password.isEmpty()) {
+			logger.error("username and/or password is empty or null");
+			throw new IllegalArgumentException("username and/or password is empty or null");
+		}
+
+		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+				username, password);
+		logger.info("authentication token successfully created");
+
+		subject.createSession(token);
+		Authentication authenticatedUser = subject.authenticate(token);
+		
 		SubjectDto subjectDto = null;
 		if (null == authenticatedUser) {
-			return subjectDto;
+			return null;
 		} else {
-			subjectDto =  subject.setSubjectDto(authenticatedUser);
+			subjectDto =  subject.createSubjectDto(authenticatedUser);
+			return subjectDto;
 		}
 		
-		return subjectDto;
 	}
 	
-	public void logout(HttpServletRequest request){
+	public void logout(){
 		
-		subject.logout(request);
+		subject.logout();
 	}
 	
 	public boolean hasAllRoles(String... roleIdentifiers){

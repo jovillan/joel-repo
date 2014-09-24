@@ -22,6 +22,5 @@ public class NoCacheFilter extends DelegatingFilterProxy {
 	    hsr.setHeader("Pragma", "no-cache"); // HTTP 1.0.
 	    hsr.setDateHeader("Expires", 0); // Proxies.
 	    chain.doFilter(req, res);
-//	    super.doFilter(req, res, chain);
 	}
 }

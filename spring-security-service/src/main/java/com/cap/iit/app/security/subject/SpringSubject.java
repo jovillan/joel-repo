@@ -28,6 +28,9 @@ import com.cap.iit.app.security.subject.dto.SubjectDto;
 public class SpringSubject implements Subject {
 
 	private static final Logger logger = Logger.getLogger(SpringSubject.class);
+	
+	@Autowired
+	private HttpServletRequest request;
 
 	@Autowired
 	protected RequestCache requestCache;
@@ -39,31 +42,16 @@ public class SpringSubject implements Subject {
 	private SubjectDto subjectDto;
 	private boolean isAuthenticated;
 
-	@Override
-	public Authentication login(HttpServletRequest request) {
-		logger.info("creating authentication token..");
-		logSessionDetails(request);
-
-		//		String username = request.getParameter("username").toLowerCase();	//for case insensitive login
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-		
-		//check for null values
-		if (null == username || null == password || username.isEmpty() || password.isEmpty()) {
-			logger.error("username and/or password is empty or null");
-			return null;
-		}
-
-		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-				username, password);
-		logger.info("authentication token successfully created");
-
-		// generate session if one doesn't exist
+	public void createSession(UsernamePasswordAuthenticationToken token) {
 		logger.info("creating http session..");
+		// generate session if one doesn't exist
 		request.getSession();
 		token.setDetails(new WebAuthenticationDetails(request));
 		logger.info("http session successfully created");
-
+	}
+	
+	public Authentication authenticate(UsernamePasswordAuthenticationToken token){
+		//authentication
 		logger.info("authenticating user..");
 		Authentication authenticatedUser = null;
 		try{
@@ -81,13 +69,13 @@ public class SpringSubject implements Subject {
 
 		SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
 		isAuthenticated = true;
-		logSessionDetails(request);
 		logger.info("user successfully authenticated");
+		
 		return authenticatedUser;
 	}
 
 	@Override
-	public SubjectDto setSubjectDto(Authentication authenticatedUser) {
+	public SubjectDto createSubjectDto(Authentication authenticatedUser) {
 		logger.info("creating subjectDto..");
 		Object principal = authenticatedUser.getPrincipal();
 		if (principal instanceof LdapUserDetailsImpl) {
@@ -105,22 +93,27 @@ public class SpringSubject implements Subject {
 	}
 
 	@Override
-	public void logout(HttpServletRequest request) {
-		logger.info("logging out..");
-		logger.info("logout session attributes before logout: ");
-		logSessionDetails(request);
-
-		SecurityContextLogoutHandler ctxLogOut = new SecurityContextLogoutHandler(); 
-
-		//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		ctxLogOut.logout(request, null, null);	//accdg to spring docs response and auth are not used
-		SecurityContextHolder.getContext().setAuthentication(null);
-		request.getSession().invalidate();
-		isAuthenticated = false;
-
-		logger.info("logout session attributes after logout: ");
-		logSessionDetails(request);
-		logger.info("user successfully logged out");
+	public void logout() {
+		
+		if (isAuthenticated) {
+			logger.info("logging out..");
+			logger.info("logout session attributes before logout: ");
+			logSessionDetails();
+	
+			SecurityContextLogoutHandler ctxLogOut = new SecurityContextLogoutHandler(); 
+	
+			ctxLogOut.logout(request, null, null);	//accdg to spring docs response and auth are not used
+			SecurityContextHolder.getContext().setAuthentication(null);
+			request.getSession().invalidate();
+			isAuthenticated = false;
+	
+			logger.info("logout session attributes after logout: ");
+			logSessionDetails();
+			logger.info("user successfully logged out");
+		} else {
+			logger.error("IllegalStateException: user is not yet authenticated");
+			throw new IllegalStateException();
+		}
 	}
 
 	@Override
@@ -129,6 +122,7 @@ public class SpringSubject implements Subject {
 		if (isAuthenticated) {
 			return subjectDto.getRoles();
 		} else {
+			logger.error("IllegalStateException: user is not yet authenticated");
 			throw new IllegalStateException();
 		}
 	}
@@ -176,6 +170,7 @@ public class SpringSubject implements Subject {
 		if (isAuthenticated) {
 			return subjectDto.getPermissions();
 		} else {
+			logger.error("IllegalStateException: user is not yet authenticated");
 			throw new IllegalStateException();
 		}
 	}
@@ -218,7 +213,7 @@ public class SpringSubject implements Subject {
 	}
 
 	@SuppressWarnings("rawtypes")
-	private void logSessionDetails(HttpServletRequest request) {
+	private void logSessionDetails() {
 		HttpSession session = request.getSession();
 		Enumeration attribs = session.getAttributeNames();
 		while (attribs.hasMoreElements()){

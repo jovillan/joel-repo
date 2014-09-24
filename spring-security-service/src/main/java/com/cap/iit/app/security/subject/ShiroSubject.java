@@ -2,8 +2,7 @@ package com.cap.iit.app.security.subject;
 
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 
 import com.cap.iit.app.security.subject.dto.SubjectDto;
@@ -11,13 +10,19 @@ import com.cap.iit.app.security.subject.dto.SubjectDto;
 public class ShiroSubject implements Subject {
 
 	@Override
-	public Authentication login(HttpServletRequest request) {
+	public void createSession(UsernamePasswordAuthenticationToken token) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Authentication authenticate(UsernamePasswordAuthenticationToken token) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void logout(HttpServletRequest request) {
+	public void logout() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -56,7 +61,7 @@ public class ShiroSubject implements Subject {
 	}
 
 	@Override
-	public SubjectDto setSubjectDto(Authentication authenticatedUser) {
+	public SubjectDto createSubjectDto(Authentication authenticatedUser) {
 		// TODO Auto-generated method stub
 		return null;
 	}

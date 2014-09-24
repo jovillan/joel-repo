@@ -48,8 +48,9 @@ public class MainController {
 			RedirectAttributes redirectAttributes
 	) {
 
-//		boolean isAuthenticated = capSecurityManager.login(request);
-		SubjectDto subjectDto = capSecurityManager.login(request);
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		SubjectDto subjectDto = capSecurityManager.login(username, password);
 		
 		if (subjectDto == null) {
 			System.out.println("redirect:/client/loginpage?error");
@@ -61,15 +62,6 @@ public class MainController {
 			model.setViewName("redirect:/client/home");
 			redirectAttributes.addAttribute("username", request.getParameter("username"));
 		}
-
-//		if (isAuthenticated) {
-//			System.out.println("redirect:/client/home");
-//			model.setViewName("redirect:/client/home");
-//			redirectAttributes.addAttribute("username", request.getParameter("username"));
-//		} else {
-//			System.out.println("redirect:/client/loginpage?error");
-//			model.setViewName("redirect:/client/loginpage?error");
-//		}
 		
 		return model;
 	}
@@ -88,7 +80,7 @@ public class MainController {
 			HttpServletRequest request, 
 			HttpServletResponse response
 	) {
-		capSecurityManager.logout(request);	//accdg to spring docs authentication and response is not used by SecurityContextLogoutHandler in logging out
+		capSecurityManager.logout();	//accdg to spring docs authentication and response is not used by SecurityContextLogoutHandler in logging out
 		
 		System.out.println("redirect:/client/loginpage?logout");
 		model.setViewName("redirect:/client/loginpage?logout");
@@ -111,7 +103,6 @@ public class MainController {
 	public ModelAndView admin(ModelAndView model, HttpServletResponse response, HttpServletRequest request) {
 		
 		model.setViewName("admin");
-		
 		displaySessionDetails("admin", request);
 		return model;
 	}
@@ -120,7 +111,6 @@ public class MainController {
 	public ModelAndView user(ModelAndView model, HttpServletResponse response, HttpServletRequest request) {
 		
 		model.setViewName("user");
-		
 		displaySessionDetails("user", request);
 		return model;
 	}

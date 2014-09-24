@@ -1,7 +1,5 @@
 package com.cap.iit.app.security.service.manager;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,17 +12,15 @@ public class CapSecurityManager {
 	@Autowired
 	private SubjectDelegate subjectService;
 	
-	//TODO return authentication token instead of boolean value
-//	public boolean login(HttpServletRequest request) {
-	public SubjectDto login(HttpServletRequest request) {
+	public SubjectDto login(String username, String password) {
 		
-		SubjectDto subjectDto = subjectService.login(request);
+		SubjectDto subjectDto = subjectService.login(username, password);
 		return subjectDto;
 	}
 	
-	public void logout(HttpServletRequest request){
+	public void logout(){
 		
-		subjectService.logout(request);
+		subjectService.logout();
 	}
 	
 	public boolean hasAllRoles(String... roleIdentifiers){

@@ -11,6 +11,5 @@ import com.cap.iit.app.security.subject.dto.SubjectDto;
 public interface Subject extends Authenticator, Authorizer {
 	Set<String> getSubjectRoles();
 	Set<String> getSubjectPermissions();
-//	SubjectDto setSubjectDto();
-	SubjectDto setSubjectDto(Authentication authenticatedUser);
+	SubjectDto createSubjectDto(Authentication authenticatedUser);
 }

@@ -13,6 +13,7 @@ solve naming exception
 ?if there are no user roles defined will it return null or empty on getRoles
 
 FOR IMPROVEMENTS:
+back button implementation should be similar to integra
 ! should go back to the previously accessed page after successful login
 !! add csrf
 subject config
@@ -32,3 +33,13 @@ return exceptions instead of null
 	return authentication exception - for now return null
 			research how to properly implement an exception
 	invoking hasRoles while the user has not been authenticated
+	
+	PROCESS:
+	fix findbugs
+	unit testing
+	bug fixing, coverage, findbugs
+	integration testing
+	bug fixing, coverage, findbugs
+	
+	?use tools like hudson and redmine
+	
