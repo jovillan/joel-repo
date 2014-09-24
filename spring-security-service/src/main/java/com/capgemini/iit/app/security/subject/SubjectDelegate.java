@@ -1,4 +1,4 @@
-package com.cap.iit.app.security.subject;
+package com.capgemini.iit.app.security.subject;
 
 import java.util.Set;
 
@@ -8,8 +8,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import com.cap.iit.app.security.config.SecurityConfigType;
-import com.cap.iit.app.security.subject.dto.SubjectDto;
+import com.capgemini.iit.app.security.config.SecurityConfigType;
+import com.capgemini.iit.app.security.subject.dto.SubjectDto;
 
 @Component
 public class SubjectDelegate {

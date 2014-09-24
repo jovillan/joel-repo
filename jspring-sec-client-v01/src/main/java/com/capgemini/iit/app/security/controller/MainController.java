@@ -1,4 +1,4 @@
-package com.cap.iit.app.security.controller;
+package com.capgemini.iit.app.security.controller;
 
 import java.util.Enumeration;
 
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.cap.iit.app.security.service.manager.CapSecurityManager;
-import com.cap.iit.app.security.subject.dto.SubjectDto;
+import com.capgemini.iit.app.security.service.manager.CapSecurityManager;
+import com.capgemini.iit.app.security.subject.dto.SubjectDto;
 
 @Controller
 @RequestMapping("/client")

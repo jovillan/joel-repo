@@ -15,10 +15,10 @@
 	
 	<!-- Scans the classpath for annotated components that will be auto-registered as Spring beans.
 	 For example @Controller and @Service. Make sure to set the correct base-package-->
-	<context:component-scan base-package="com.cap.iit.app.security.service.manager" />
-	<context:component-scan base-package="com.cap.iit.app.security.subject" />
-	<context:component-scan base-package="com.cap.iit.app.security.handler" />
-	<context:component-scan base-package="com.cap.iit.app.security.controller" />
+	<context:component-scan base-package="com.capgemini.iit.app.security.service.manager" />
+	<context:component-scan base-package="com.capgemini.iit.app.security.subject" />
+	<context:component-scan base-package="com.capgemini.iit.app.security.handler" />
+	<context:component-scan base-package="com.capgemini.iit.app.security.controller" />
 	
 	<!-- Configures the annotation-driven Spring MVC Controller programming model.
 	Note that, with Spring 3.0, this tag works in Servlet MVC only!  -->
@@ -42,15 +42,15 @@
 	            <ref bean="securityContextLogoutHandler"/>
 	    </constructor-arg>
 	</bean>
-	<bean id="noRedirectLogoutSuccessHandler" class="com.cap.iit.app.security.handler.NoRedirectLogoutSuccessHandler"/>
+	<bean id="noRedirectLogoutSuccessHandler" class="com.capgemini.iit.app.security.handler.NoRedirectLogoutSuccessHandler"/>
 	<bean id="securityContextLogoutHandler" class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler">
 	    <property name="invalidateHttpSession" value="true"/>
 	</bean>
 
-	<bean id="subject" class="com.cap.iit.app.security.subject.SpringSubject" autowire="byName" />
+	<bean id="subject" class="com.capgemini.iit.app.security.subject.SpringSubject" autowire="byName" />
 
 	<mvc:interceptors>
-      <bean class="com.cap.iit.app.security.interceptor.BrowserCachingInterceptor" />
+      <bean class="com.capgemini.iit.app.security.interceptor.BrowserCachingInterceptor" />
     </mvc:interceptors> 
  
 </beans>

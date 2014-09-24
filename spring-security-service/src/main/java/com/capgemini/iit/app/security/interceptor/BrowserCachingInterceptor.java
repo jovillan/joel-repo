@@ -1,4 +1,4 @@
-package com.cap.iit.app.security.interceptor;
+package com.capgemini.iit.app.security.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

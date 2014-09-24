@@ -1,6 +1,6 @@
-package com.cap.iit.app.security.subject;
+package com.capgemini.iit.app.security.subject;
 
-import com.cap.iit.app.security.config.SecurityConfigType;
+import com.capgemini.iit.app.security.config.SecurityConfigType;
 
 public class SubjectLookup {
 	public Subject getSubjectByType(SecurityConfigType configType){

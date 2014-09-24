@@ -1,11 +1,11 @@
-package com.cap.iit.app.security.subject;
+package com.capgemini.iit.app.security.subject;
 
 import java.util.Set;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 
-import com.cap.iit.app.security.subject.dto.SubjectDto;
+import com.capgemini.iit.app.security.subject.dto.SubjectDto;
 
 public class ShiroSubject implements Subject {
 

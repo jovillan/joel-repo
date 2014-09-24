@@ -1,11 +1,11 @@
-package com.cap.iit.app.security.service.manager;
+package com.capgemini.iit.app.security.service.manager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.cap.iit.app.security.config.SecurityConfigType;
-import com.cap.iit.app.security.subject.SubjectDelegate;
-import com.cap.iit.app.security.subject.dto.SubjectDto;
+import com.capgemini.iit.app.security.config.SecurityConfigType;
+import com.capgemini.iit.app.security.subject.SubjectDelegate;
+import com.capgemini.iit.app.security.subject.dto.SubjectDto;
 
 @Component
 public class CapSecurityManager {

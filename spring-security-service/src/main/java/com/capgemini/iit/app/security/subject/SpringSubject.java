@@ -1,4 +1,4 @@
-package com.cap.iit.app.security.subject;
+package com.capgemini.iit.app.security.subject;
 
 import java.util.Enumeration;
 import java.util.Set;
@@ -22,7 +22,7 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.stereotype.Service;
 
-import com.cap.iit.app.security.subject.dto.SubjectDto;
+import com.capgemini.iit.app.security.subject.dto.SubjectDto;
 
 @Service
 public class SpringSubject implements Subject {

@@ -1,4 +1,4 @@
-package com.cap.iit.app.security.filter;
+package com.capgemini.iit.app.security.filter;
 
 import java.io.IOException;
 

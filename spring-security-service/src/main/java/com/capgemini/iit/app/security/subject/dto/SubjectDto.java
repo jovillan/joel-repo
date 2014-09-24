@@ -1,4 +1,4 @@
-package com.cap.iit.app.security.subject.dto;
+package com.capgemini.iit.app.security.subject.dto;
 
 import java.util.Set;
 

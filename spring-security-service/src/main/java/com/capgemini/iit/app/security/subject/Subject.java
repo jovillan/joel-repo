@@ -1,12 +1,12 @@
-package com.cap.iit.app.security.subject;
+package com.capgemini.iit.app.security.subject;
 
 import java.util.Set;
 
 import org.springframework.security.core.Authentication;
 
-import com.cap.iit.app.security.service.Authenticator;
-import com.cap.iit.app.security.service.Authorizer;
-import com.cap.iit.app.security.subject.dto.SubjectDto;
+import com.capgemini.iit.app.security.service.Authenticator;
+import com.capgemini.iit.app.security.service.Authorizer;
+import com.capgemini.iit.app.security.subject.dto.SubjectDto;
 
 public interface Subject extends Authenticator, Authorizer {
 	Set<String> getSubjectRoles();
