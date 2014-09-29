@@ -1,15 +1,16 @@
 package com.capgemini.iit.app.security.service.manager;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.capgemini.iit.app.security.config.SecurityConfigType;
 import com.capgemini.iit.app.security.subject.SubjectDelegate;
 import com.capgemini.iit.app.security.subject.dto.SubjectDto;
 
-@Component
-public class CapSecurityManager {
-	@Autowired
+public class SecurityServiceManager {
+	
+	private static final String APPLICATION_CONTEXT =  "service-beans.xml";	//"spring-security-ldap.xml"
 	private SubjectDelegate subjectService;
 	
 	public SubjectDto login(String username, String password) {
@@ -56,5 +57,18 @@ public class CapSecurityManager {
 	public void setSubjectByType(SecurityConfigType type){
 		
 		subjectService.setSubjectByType(type);
+	}
+
+	public void setSubjectService(SubjectDelegate subjectService) {
+		this.subjectService = subjectService;
+	}
+	
+	//TODO an argument can be placed here to indicate which subject to use
+	//this could also delegate to a lookupservice to check which security config to use (spring or shiro)
+	public static SecurityServiceManager getInstance(){
+		ApplicationContext context = new ClassPathXmlApplicationContext(APPLICATION_CONTEXT);
+		SecurityServiceManager securityManager = (SecurityServiceManager) context.getBean("securityServiceManager");
+		((AbstractApplicationContext) context).close(); 
+		return securityManager;
 	}
 }

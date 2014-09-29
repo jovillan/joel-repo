@@ -1,6 +1,7 @@
-currently if any secured page is access it will be redirected to login page
+test currently if any secured page is access it will be redirected to login page
 upon successful login the user will always be redirected to the home page
 main functionality is authentication and authorization
+currently SecurityConfigType, NoCacheFilter and SecurityAware are not used
 
 SETUP:
 the login page should be configured in xml file

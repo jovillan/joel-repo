@@ -3,18 +3,16 @@ package com.capgemini.iit.app.security.subject;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Component;
 
 import com.capgemini.iit.app.security.config.SecurityConfigType;
 import com.capgemini.iit.app.security.subject.dto.SubjectDto;
 
-@Component
+
 public class SubjectDelegate {
-	@Autowired
-	private Subject subject;	//this will be set in xml, either spring security or shiro can be used
+
+	private Subject subject;	//subject can either be shiro or spring
 	private SubjectLookup lookupService = new SubjectLookup();
 	
 	private Logger logger = Logger.getLogger(SubjectDelegate.class);
@@ -25,7 +23,8 @@ public class SubjectDelegate {
 		//check for null values
 		if (null == username || null == password || username.isEmpty() || password.isEmpty()) {
 			logger.error("username and/or password is empty or null");
-			throw new IllegalArgumentException("username and/or password is empty or null");
+			return null;
+//			throw new IllegalArgumentException("username and/or password is empty or null");
 		}
 
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
@@ -90,4 +89,10 @@ public class SubjectDelegate {
 		
 		this.subject = lookupService.getSubjectByType(type);
 	}
+
+	public void setSubject(Subject subject) {
+		this.subject = subject;
+	}
+	
+	
 }

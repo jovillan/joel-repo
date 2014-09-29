@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -20,39 +18,37 @@ import org.springframework.security.ldap.userdetails.LdapUserDetailsImpl;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.web.savedrequest.RequestCache;
-import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.capgemini.iit.app.security.subject.dto.SubjectDto;
 
-@Service
 public class SpringSubject implements Subject {
 
 	private static final Logger logger = Logger.getLogger(SpringSubject.class);
 	
-	@Autowired
+	private RequestCache requestCache;
 	private HttpServletRequest request;
-
-	@Autowired
-	protected RequestCache requestCache;
-
-	@Autowired
-	@Qualifier("authenticationManager")
-	protected AuthenticationManager authenticationManager;
-
+	private AuthenticationManager authenticationManager;
 	private SubjectDto subjectDto;
 	private boolean isAuthenticated;
 
+	@Override
 	public void createSession(UsernamePasswordAuthenticationToken token) {
 		logger.info("creating http session..");
-		// generate session if one doesn't exist
-		request.getSession();
-		token.setDetails(new WebAuthenticationDetails(request));
+		logSessionDetails();
+		setRequest();
+		this.request.getSession();	// generate session if one doesn't exist
+		token.setDetails(new WebAuthenticationDetails(this.request));
+		logSessionDetails();
 		logger.info("http session successfully created");
 	}
 	
+	@Override
 	public Authentication authenticate(UsernamePasswordAuthenticationToken token){
 		//authentication
 		logger.info("authenticating user..");
+		logSessionDetails();
 		Authentication authenticatedUser = null;
 		try{
 			authenticatedUser = authenticationManager.authenticate(token);
@@ -70,6 +66,7 @@ public class SpringSubject implements Subject {
 		SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
 		isAuthenticated = true;
 		logger.info("user successfully authenticated");
+		logSessionDetails();
 		
 		return authenticatedUser;
 	}
@@ -102,9 +99,9 @@ public class SpringSubject implements Subject {
 	
 			SecurityContextLogoutHandler ctxLogOut = new SecurityContextLogoutHandler(); 
 	
-			ctxLogOut.logout(request, null, null);	//accdg to spring docs response and auth are not used
+			ctxLogOut.logout(this.request, null, null);	//accdg to spring docs response and auth are not used
 			SecurityContextHolder.getContext().setAuthentication(null);
-			request.getSession().invalidate();
+			this.request.getSession().invalidate();
 			isAuthenticated = false;
 	
 			logger.info("logout session attributes after logout: ");
@@ -211,10 +208,23 @@ public class SpringSubject implements Subject {
 
 		return hasPermissions;
 	}
+	
+	private void setRequest() {
+		HttpServletRequest curRequest = 
+				((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+				.getRequest();
+		
+		this.request = curRequest;
+	}
+
+	public void setAuthenticationManager(AuthenticationManager authenticationManager) {
+
+		this.authenticationManager = authenticationManager;
+	}
 
 	@SuppressWarnings("rawtypes")
 	private void logSessionDetails() {
-		HttpSession session = request.getSession();
+		HttpSession session = this.request.getSession();
 		Enumeration attribs = session.getAttributeNames();
 		while (attribs.hasMoreElements()){
 			Object attrib = attribs.nextElement();
@@ -222,6 +232,14 @@ public class SpringSubject implements Subject {
 			Object obj = session.getAttribute((String) attrib);
 			logger.info("Session element " + obj);
 		}
+	}
+
+//	public RequestCache getRequestCache() {
+//		return requestCache;
+//	}
+
+	public void setRequestCache(RequestCache requestCache) {
+		this.requestCache = requestCache;
 	}
 
 }

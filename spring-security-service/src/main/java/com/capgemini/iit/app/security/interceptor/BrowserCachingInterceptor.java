@@ -4,10 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-@Component
 public class BrowserCachingInterceptor extends HandlerInterceptorAdapter {
 	
 	private static final Logger logger = Logger.getLogger(BrowserCachingInterceptor.class);
