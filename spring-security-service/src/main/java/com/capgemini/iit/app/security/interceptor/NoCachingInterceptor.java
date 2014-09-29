@@ -6,9 +6,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-public class BrowserCachingInterceptor extends HandlerInterceptorAdapter {
+public class NoCachingInterceptor extends HandlerInterceptorAdapter {
 	
-	private static final Logger logger = Logger.getLogger(BrowserCachingInterceptor.class);
+	private static final Logger logger = Logger.getLogger(NoCachingInterceptor.class);
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request,

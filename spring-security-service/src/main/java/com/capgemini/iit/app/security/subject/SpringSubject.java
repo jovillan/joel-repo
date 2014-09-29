@@ -28,19 +28,14 @@ public class SpringSubject implements Subject {
 	private static final Logger logger = Logger.getLogger(SpringSubject.class);
 	
 	private RequestCache requestCache;
-//	private HttpServletRequest request;
 	private AuthenticationManager authenticationManager;
 	private SubjectDto subjectDto;
-	private boolean isAuthenticated;
 
 	@Override
 	public void createSession(UsernamePasswordAuthenticationToken token) {
 		logger.info("creating http session..");
 		logSessionDetails();
-//		getRequest();
-//		this.request.getSession();	// generate session if one doesn't exist
 		getRequest().getSession();	// generate session if one doesn't exist
-//		token.setDetails(new WebAuthenticationDetails(this.request));
 		token.setDetails(new WebAuthenticationDetails(getRequest()));
 		logSessionDetails();
 		logger.info("http session successfully created");
@@ -66,7 +61,6 @@ public class SpringSubject implements Subject {
 		}
 
 		SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
-		isAuthenticated = true;
 		logger.info("user successfully authenticated");
 		logSessionDetails();
 		
@@ -94,19 +88,16 @@ public class SpringSubject implements Subject {
 	@Override
 	public void logout() {
 		
-		if (isAuthenticated) {
+		if (isAuthenticated()) {
 			logger.info("logging out..");
 			logger.info("logout session attributes before logout: ");
 			logSessionDetails();
 	
 			SecurityContextLogoutHandler ctxLogOut = new SecurityContextLogoutHandler(); 
 			
-//			ctxLogOut.logout(this.request, null, null);	//accdg to spring docs response and auth are not used
 			ctxLogOut.logout(getRequest(), null, null);	//accdg to spring docs response and auth are not used
 			SecurityContextHolder.getContext().setAuthentication(null);
-//			this.request.getSession().invalidate();
 			getRequest().getSession().invalidate();
-			isAuthenticated = false;
 	
 			logger.info("logout session attributes after logout: ");
 			logSessionDetails();
@@ -120,7 +111,7 @@ public class SpringSubject implements Subject {
 	@Override
 	public Set<String> getSubjectRoles() {
 
-		if (isAuthenticated) {
+		if (isAuthenticated()) {
 			return subjectDto.getRoles();
 		} else {
 			logger.error("IllegalStateException: user is not yet authenticated");
@@ -168,12 +159,17 @@ public class SpringSubject implements Subject {
 	@Override
 	public Set<String> getSubjectPermissions() {
 
-		if (isAuthenticated) {
+		if (isAuthenticated()) {
 			return subjectDto.getPermissions();
 		} else {
 			logger.error("IllegalStateException: user is not yet authenticated");
 			throw new IllegalStateException();
 		}
+	}
+
+	private boolean isAuthenticated() {
+		boolean isAuthenticated = SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
+		return isAuthenticated;
 	}
 
 	@Override
@@ -218,7 +214,6 @@ public class SpringSubject implements Subject {
 				((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
 				.getRequest();
 		
-//		this.request = curRequest;
 		return curRequest;
 	}
 
@@ -229,7 +224,6 @@ public class SpringSubject implements Subject {
 
 	@SuppressWarnings("rawtypes")
 	private void logSessionDetails() {
-//		HttpSession session = this.request.getSession();
 		HttpSession session = getRequest().getSession();
 		Enumeration attribs = session.getAttributeNames();
 		while (attribs.hasMoreElements()){

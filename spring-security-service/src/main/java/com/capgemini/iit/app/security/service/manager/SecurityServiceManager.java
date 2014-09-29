@@ -10,7 +10,7 @@ import com.capgemini.iit.app.security.subject.dto.SubjectDto;
 
 public class SecurityServiceManager {
 	
-	private static final String APPLICATION_CONTEXT =  "service-beans.xml";	//"spring-security-ldap.xml"
+	private static final String APPLICATION_CONTEXT =  "service-beans.xml";
 	private SubjectDelegate subjectService;
 	
 	public SubjectDto login(String username, String password) {

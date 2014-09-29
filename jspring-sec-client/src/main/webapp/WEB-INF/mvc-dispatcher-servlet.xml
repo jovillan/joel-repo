@@ -17,10 +17,6 @@
 	
 	<!-- Scans the classpath for annotated components that will be auto-registered as Spring beans.
 	 For example @Controller and @Service. Make sure to set the correct base-package-->
-<!-- 	<context:component-scan base-package="com.capgemini.iit.app.security.service" /> -->
-<!-- 	<context:component-scan base-package="com.capgemini.iit.app.security.handler" /> -->
-<!-- 	<context:component-scan base-package="com.capgemini.iit.app.security.interceptor" /> -->
-<!-- 	<context:component-scan base-package="com.capgemini.iit.app.security.service.manager" /> -->
 	<context:component-scan base-package="com.capgemini.iit.app.security.controller" />
 	
 	<!-- Configures the annotation-driven Spring MVC Controller programming model.
@@ -36,5 +32,10 @@
 			<value>.jsp</value>
 		</property>
 	</bean>
+	
+	<mvc:interceptors> 
+      <bean class="com.capgemini.iit.app.security.interceptor.NoCachingInterceptor" /> 
+    </mvc:interceptors>  
+	
  
 </beans>
