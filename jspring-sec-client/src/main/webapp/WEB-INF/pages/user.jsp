@@ -8,5 +8,9 @@
 </head>
 <body>
 Hi User
+<form action="/jspring-sec-client/client/logout" method="post" id="logoutForm">
+	<!-- add hidden csrf parameters -->
+	<input type="submit" value="Logout" />
+</form>
 </body>
 </html>

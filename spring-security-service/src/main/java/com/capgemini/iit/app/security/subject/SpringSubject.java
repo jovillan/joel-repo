@@ -28,7 +28,7 @@ public class SpringSubject implements Subject {
 	private static final Logger logger = Logger.getLogger(SpringSubject.class);
 	
 	private RequestCache requestCache;
-	private HttpServletRequest request;
+//	private HttpServletRequest request;
 	private AuthenticationManager authenticationManager;
 	private SubjectDto subjectDto;
 	private boolean isAuthenticated;
@@ -37,9 +37,11 @@ public class SpringSubject implements Subject {
 	public void createSession(UsernamePasswordAuthenticationToken token) {
 		logger.info("creating http session..");
 		logSessionDetails();
-		setRequest();
-		this.request.getSession();	// generate session if one doesn't exist
-		token.setDetails(new WebAuthenticationDetails(this.request));
+//		getRequest();
+//		this.request.getSession();	// generate session if one doesn't exist
+		getRequest().getSession();	// generate session if one doesn't exist
+//		token.setDetails(new WebAuthenticationDetails(this.request));
+		token.setDetails(new WebAuthenticationDetails(getRequest()));
 		logSessionDetails();
 		logger.info("http session successfully created");
 	}
@@ -98,10 +100,12 @@ public class SpringSubject implements Subject {
 			logSessionDetails();
 	
 			SecurityContextLogoutHandler ctxLogOut = new SecurityContextLogoutHandler(); 
-	
-			ctxLogOut.logout(this.request, null, null);	//accdg to spring docs response and auth are not used
+			
+//			ctxLogOut.logout(this.request, null, null);	//accdg to spring docs response and auth are not used
+			ctxLogOut.logout(getRequest(), null, null);	//accdg to spring docs response and auth are not used
 			SecurityContextHolder.getContext().setAuthentication(null);
-			this.request.getSession().invalidate();
+//			this.request.getSession().invalidate();
+			getRequest().getSession().invalidate();
 			isAuthenticated = false;
 	
 			logger.info("logout session attributes after logout: ");
@@ -209,12 +213,13 @@ public class SpringSubject implements Subject {
 		return hasPermissions;
 	}
 	
-	private void setRequest() {
+	private HttpServletRequest getRequest() {
 		HttpServletRequest curRequest = 
 				((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
 				.getRequest();
 		
-		this.request = curRequest;
+//		this.request = curRequest;
+		return curRequest;
 	}
 
 	public void setAuthenticationManager(AuthenticationManager authenticationManager) {
@@ -224,7 +229,8 @@ public class SpringSubject implements Subject {
 
 	@SuppressWarnings("rawtypes")
 	private void logSessionDetails() {
-		HttpSession session = this.request.getSession();
+//		HttpSession session = this.request.getSession();
+		HttpSession session = getRequest().getSession();
 		Enumeration attribs = session.getAttributeNames();
 		while (attribs.hasMoreElements()){
 			Object attrib = attribs.nextElement();

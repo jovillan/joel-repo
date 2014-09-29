@@ -14,5 +14,7 @@
 	<!-- add hidden csrf parameters -->
 	<input type="submit" value="Logout" />
 </form>
+<a href="/jspring-sec-client/client/user">User</a>
+<a href="/jspring-sec-client/client/admin">Admin</a>
 </body>
 </html>
